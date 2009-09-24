@@ -3,6 +3,7 @@ require 'sinatra'
 require 'erb'
 require 'rexml/document'
 require 'net/http'
+require 'yaml'
 
 set :public, File.dirname(__FILE__) + '/public'
 
@@ -12,8 +13,8 @@ end
 
 def cruise_status
   builds = {:success => [], :failure => [], :building => []}
-  ['integration01', 'integration02'].each do |host|
-    xml = get_xml(host)
+  servers.each do |server|
+    xml = get_xml(server)
     doc = REXML::Document.new(xml)
     doc.elements.each('Projects/Project') do |p|
       status = p.attributes["activity"] == "Building" ? "building" : p.attributes["lastBuildStatus"].downcase
@@ -23,9 +24,14 @@ def cruise_status
   builds
 end
 
-def get_xml(host)
-  http_result = Net::HTTP.start(host, '3333') {|http|
+def get_xml(server)
+  host, port = server.split(':')
+  http_result = Net::HTTP.start(host, port) {|http|
     http.get('/XmlStatusReport.aspx')
   }
   http_result.body
+end
+
+def servers
+  @servers ||= YAML.load(File.read(File.dirname(__FILE__) + '/config/servers.yaml'))
 end

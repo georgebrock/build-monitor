@@ -2,6 +2,7 @@ require 'rubygems'
 require 'sinatra'
 require 'erb'
 require 'rexml/document'
+require 'net/http'
 
 set :public, File.dirname(__FILE__) + '/public'
 
@@ -10,7 +11,7 @@ get '/' do
 end
 
 def builds
-  xml = File.read('/Users/georgebrocklehurst/Downloads/XmlStatusReport.aspx')
+  xml = get_xml
   doc, builds = REXML::Document.new(xml), []
   doc.elements.each('Projects/Project') do |p|
     builds << {
@@ -19,4 +20,11 @@ def builds
     }
   end
   builds
+end
+
+def get_xml
+  http_result = Net::HTTP.start('integration01', '3333') {|http|
+    http.get('/XmlStatusReport.aspx')
+  }
+  http_result.body
 end

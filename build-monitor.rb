@@ -11,19 +11,22 @@ get '/' do
 end
 
 def builds
-  xml = get_xml
-  doc, builds = REXML::Document.new(xml), []
-  doc.elements.each('Projects/Project') do |p|
-    builds << {
-      :title => p.attributes["name"],
-      :status => p.attributes["activity"] == "Building" ? "building" : p.attributes["lastBuildStatus"].downcase
-    }
+  builds = []
+  ['integration01', 'integration02'].each do |host|
+    xml = get_xml(host)
+    doc = REXML::Document.new(xml)
+    doc.elements.each('Projects/Project') do |p|
+      builds << {
+        :title => p.attributes["name"],
+        :status => p.attributes["activity"] == "Building" ? "building" : p.attributes["lastBuildStatus"].downcase
+      }
+    end
   end
   builds
 end
 
-def get_xml
-  http_result = Net::HTTP.start('integration01', '3333') {|http|
+def get_xml(host)
+  http_result = Net::HTTP.start(host, '3333') {|http|
     http.get('/XmlStatusReport.aspx')
   }
   http_result.body

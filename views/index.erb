@@ -23,10 +23,10 @@
       -webkit-box-shadow:rgba(0,0,0,0.5) 0px 5px 10px;
       -webkit-border-radius:0.5em;
     }
-    div.ok {
+    div.success {
       background-color:#0a0;
     }
-    div.error {
+    div.failure {
       background-color:#d00;
     }
     div.building {
@@ -38,10 +38,8 @@
 </head>
 
 <body>
-
-  <div class="project ok">ReevooMark v3</div>
-  <div class="project error">Revieworld</div>
-  <div class="project building">Reevoo</div>
-
+<% builds.each do |b| %>
+  <div class="project <%= b[:status] %>"><%= b[:title] %></div>
+<% end %>
 </body>
 </html>

@@ -7,10 +7,15 @@ require 'net/http'
 set :public, File.dirname(__FILE__) + '/public'
 
 get '/' do
-  erb :index, :locals => {:builds => builds}
+  builds = cruise_status
+  if builds[:failure].empty? && builds[:building].empty?
+    erb :ok
+  else
+    erb :index, :locals => {:builds => builds}
+  end
 end
 
-def builds
+def cruise_status
   builds = {:success => [], :failure => [], :building => []}
   ['integration01', 'integration02'].each do |host|
     xml = get_xml(host)

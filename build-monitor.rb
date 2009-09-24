@@ -11,15 +11,13 @@ get '/' do
 end
 
 def builds
-  builds = []
+  builds = {:success => [], :failure => [], :building => []}
   ['integration01', 'integration02'].each do |host|
     xml = get_xml(host)
     doc = REXML::Document.new(xml)
     doc.elements.each('Projects/Project') do |p|
-      builds << {
-        :title => p.attributes["name"],
-        :status => p.attributes["activity"] == "Building" ? "building" : p.attributes["lastBuildStatus"].downcase
-      }
+      status = p.attributes["activity"] == "Building" ? "building" : p.attributes["lastBuildStatus"].downcase
+      builds[status.to_sym] << p.attributes["name"]
     end
   end
   builds

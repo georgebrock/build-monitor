@@ -11,7 +11,7 @@
       padding:0;
     }
     body {
-      padding:0 0 0 1%;
+      padding:0 0.5em;
       font-family:arial, sans-serif;
     }
     div.project {
@@ -22,9 +22,6 @@
       background:#ccc;
       -webkit-box-shadow:rgba(0,0,0,0.5) 0px 5px 10px;
       -webkit-border-radius:0.5em;
-      width:47%;
-      margin-right:1%;
-      float:left;
     }
     div.success {
       background-color:#0a0;
@@ -48,8 +45,12 @@
 </head>
 
 <body>
-<% builds.each do |b| %>
-  <div class="project <%= b[:status] %>"><%= b[:title] %></div>
+<% builds[:failure].each do |title| %>
+  <div class="project failure"><%= title %></div>
 <% end %>
+<% builds[:building].each do |title| %>
+  <div class="project building"><%= title %></div>
+<% end %>
+  <div class="project success"><%= builds[:success].length %> other builds are fine</div>
 </body>
 </html>

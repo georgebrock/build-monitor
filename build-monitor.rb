@@ -7,12 +7,7 @@ require 'net/http'
 set :public, File.dirname(__FILE__) + '/public'
 
 get '/' do
-  builds = cruise_status
-  if builds[:failure].empty? && builds[:building].empty?
-    erb :ok
-  else
-    erb :index, :locals => {:builds => builds}
-  end
+  erb :index, :locals => {:builds => cruise_status}
 end
 
 def cruise_status

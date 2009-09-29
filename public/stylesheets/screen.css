@@ -5,6 +5,7 @@ html, body {
 body {
   padding:0 1em;
   font-family:arial, sans-serif;
+  background: url('/images/cow.gif') no-repeat 95% -95%; 
 }
 div.project, div.ok {
   text-align:center;

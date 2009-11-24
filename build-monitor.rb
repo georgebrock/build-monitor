@@ -7,12 +7,16 @@ require 'yaml'
 
 set :public, File.dirname(__FILE__) + '/public'
 
+def status_html
+  status = erb :status, :locals => {:builds => CruiseStatus.builds}
+end
+
 get '/' do
-  erb :index, :locals => {:builds => CruiseStatus.builds}
+  erb :index, :locals => {:status => status_html}
 end
 
 get '/status' do
-  erb :status, :locals => {:builds => CruiseStatus.builds}
+  status_html
 end
 
 module CruiseStatus

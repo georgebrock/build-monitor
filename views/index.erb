@@ -16,24 +16,7 @@
 
 <body>
 <div id="status">
-  <% builds[:update_failed].each do |server| %>
-    <div class="project failure">Update Failed on <%=server %></div>
-  <% end %>
-
-  <% if builds[:failure].any? || builds[:building].any? %>
-    <% builds[:failure].each do |title| %>
-      <div class="project failure"><%= title %></div>
-    <% end %>
-    <% builds[:building].each do |title| %>
-      <div class="project building"><%= title %></div>
-    <% end %>
-    <% if builds[:success].any? %>
-      <div class="project success"><%= builds[:success].length %> other builds are fine</div>
-    <% end %>
-  <% elsif builds[:success].any? %>
-    <div class="ok">Everything is A OK in <%= builds[:success].length %> builds</div>
-  <% end %>
-  <div class="time">Updated at <%= DateTime.now.strftime("%T") %></div>
+  <%= status %>
 </div>
 </body>
 </html>

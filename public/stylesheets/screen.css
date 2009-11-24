@@ -35,3 +35,10 @@ div.building {
 div.ok {
   font-size:5em;
 }
+div.time {
+  position:absolute;
+  bottom:1em;
+  left:1em;
+  font-size:2em;
+  color:#333;
+}

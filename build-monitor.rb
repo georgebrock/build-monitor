@@ -48,6 +48,15 @@ module CruiseStatus
     http_result = Net::HTTP.start(host, port) {|http|
       http.get('/XmlStatusReport.aspx')
     }
+
+    if http_result
+      dir = File.dirname(__FILE__) + '/public/cache/'+host
+      Dir.mkdir(dir) unless File.exists?(dir)
+      f = File.open(dir+'/XmlStatusReport.aspx', 'w')
+      f.write(http_result.body)
+      f.close
+    end
+
     REXML::Document.new(http_result.body)
   end
 

@@ -11,6 +11,10 @@ get '/' do
   erb :index, :locals => {:builds => CruiseStatus.builds}
 end
 
+get '/status' do
+  erb :status, :locals => {:builds => CruiseStatus.builds}
+end
+
 module CruiseStatus
 
   def builds

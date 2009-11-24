@@ -15,7 +15,9 @@ div.project, div.ok {
   padding:0.25em 1%;
   background:#ccc;
   -webkit-box-shadow:rgba(0,0,0,0.5) 0px 5px 10px;
+  border-radius:0.5em;
   -webkit-border-radius:0.5em;
+  -moz-border-radius:0.5em;
 }
 div.success, div.ok {
   background-color:#0a0;

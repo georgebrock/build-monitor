@@ -6,28 +6,33 @@
   <title>Reevoo Build Monitor</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <link rel="stylesheet" href="stylesheets/screen.css" type="text/css" media="screen" charset="utf-8" />
+  <script type="text/javascript" charset="utf-8" src="/scripts/jquery-1.3.2.min.js"></script>
   <script type="text/javascript" charset="utf-8">
-    setTimeout(function() {
-      window.location = window.location;
+    setInterval(function() {
+      $("#status").load('/status');
     }, 60000);
   </script>
 </head>
 
 <body>
-<% builds[:update_failed].each do |server| %>
-  <div class="project failure">Update Failed on <%=server %></div>
-<% end %>
+<div id="status">
+  <% builds[:update_failed].each do |server| %>
+    <div class="project failure">Update Failed on <%=server %></div>
+  <% end %>
 
-<% if builds[:failure].any? || builds[:building].any? %>
-  <% builds[:failure].each do |title| %>
-    <div class="project failure"><%= title %></div>
+  <% if builds[:failure].any? || builds[:building].any? %>
+    <% builds[:failure].each do |title| %>
+      <div class="project failure"><%= title %></div>
+    <% end %>
+    <% builds[:building].each do |title| %>
+      <div class="project building"><%= title %></div>
+    <% end %>
+    <% if builds[:success].any? %>
+      <div class="project success"><%= builds[:success].length %> other builds are fine</div>
+    <% end %>
+  <% elsif builds[:success].any? %>
+    <div class="ok">Everything is A OK in <%= builds[:success].length %> builds</div>
   <% end %>
-  <% builds[:building].each do |title| %>
-    <div class="project building"><%= title %></div>
-  <% end %>
-  <div class="project success"><%= builds[:success].length %> other builds are fine</div>
-<% else %>
-  <div class="ok">Everything is A OK in <%= builds[:success].length %> builds</div>
-<% end %>
+</div>
 </body>
 </html>

@@ -10,9 +10,9 @@
     <div class="project building"><%= title %></div>
   <% end %>
   <% if builds[:success].any? %>
-    <div class="project success"><%= builds[:success].length %> other heffer are just dandy</div>
+    <div class="project success"><%= builds[:success].length %> other heifer are just dandy</div>
   <% end %>
 <% elsif builds[:success].any? %>
-  <div class="ok">All <%= builds[:success].length %> heffers happy as pigs in muck</div>
+  <div class="ok">All <%= builds[:success].length %> heifers happy as pigs in muck</div>
 <% end %>
-<div class="time">Checked the herd <%= DateTime.now.strftime("%T") %></div>
+<div class="time">Checked the herd at <%= DateTime.now.strftime("%T") %></div>

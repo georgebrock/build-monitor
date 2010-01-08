@@ -1,5 +1,5 @@
 <% builds[:update_failed].each do |server| %>
-  <div class="project failure">Update Failed on <%=server %></div>
+  <div class="project failure">Update Failed on <%=server %> (You may have left the gate open)</div>
 <% end %>
 
 <% if builds[:failure].any? || builds[:building].any? %>
@@ -10,9 +10,9 @@
     <div class="project building"><%= title %></div>
   <% end %>
   <% if builds[:success].any? %>
-    <div class="project success"><%= builds[:success].length %> other builds are fine</div>
+    <div class="project success"><%= builds[:success].length %> other heffer are just dandy</div>
   <% end %>
 <% elsif builds[:success].any? %>
-  <div class="ok">Everything is A OK in <%= builds[:success].length %> builds</div>
+  <div class="ok">All <%= builds[:success].length %> heffers happy as pigs in muck</div>
 <% end %>
-<div class="time">Updated at <%= DateTime.now.strftime("%T") %></div>
+<div class="time">Checked the herd <%= DateTime.now.strftime("%T") %></div>

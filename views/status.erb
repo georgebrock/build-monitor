@@ -10,7 +10,7 @@
     <div class="project building"><%= title %></div>
   <% end %>
   <% if builds[:success].any? %>
-    <div class="project success"><%= builds[:success].length %> other heifer are just dandy</div>
+    <div class="project success"><%= builds[:success].length %> other heifers are just dandy</div>
   <% end %>
 <% elsif builds[:success].any? %>
   <div class="ok">All <%= builds[:success].length %> heifers happy as pigs in muck</div>

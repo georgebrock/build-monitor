@@ -16,3 +16,7 @@
   <div class="ok">All <%= builds[:success].length %> heifers happy as pigs in muck</div>
 <% end %>
 <div class="time">Checked the herd at <%= DateTime.now.strftime("%T") %></div>
+
+<script type="text/javascript" charset="utf-8">
+  status_update(<%= builds[:failure].size %>);
+</script>

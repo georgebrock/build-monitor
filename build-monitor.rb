@@ -68,7 +68,7 @@ module CruiseStatus
     Timeout::timeout(10) do
       return yield
     end
-  rescue
+  rescue Timeout::Error
     return nil
   end
 

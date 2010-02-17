@@ -44,13 +44,13 @@ module CruiseStatus
   end
 
   def get_xml(server)
-    host, port = server.split(':')
-    http_result = Net::HTTP.start(host, port) {|http|
-      http.get('/XmlStatusReport.aspx')
+    uri = URI.parse("http://#{server}/XmlStatusReport.aspx")
+    http_result = Net::HTTP.start(uri.host, uri.port) {|http|
+      http.get(uri.path)
     }
 
     if http_result
-      dir = File.dirname(__FILE__) + '/public/cache/'+host
+      dir = File.dirname(__FILE__) + '/public/cache/'+uri.host
       Dir.mkdir(dir) unless File.exists?(dir)
       f = File.open(dir+'/XmlStatusReport.aspx', 'w')
       f.write(http_result.body)

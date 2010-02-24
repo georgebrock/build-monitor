@@ -12,7 +12,7 @@ def status_html
 end
 
 get '/' do
-  erb :index, :locals => {:status => status_html}
+  erb :index, :locals => {:status => status_html, :pager_urls => YAML.load(File.read(File.dirname(__FILE__) + '/config/pager.yaml'))}
 end
 
 get '/status' do

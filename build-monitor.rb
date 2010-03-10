@@ -4,6 +4,7 @@ require 'erb'
 require 'rexml/document'
 require 'net/http'
 require 'yaml'
+require 'additional_checks'
 
 set :public, File.dirname(__FILE__) + '/public'
 
@@ -40,6 +41,10 @@ module CruiseStatus
       @last_cruise_status[server] = doc
     end
 
+    additional_checks.each do |checker|
+      builds[checker.status.to_sym] << checker
+    end
+
     builds
   end
 
@@ -62,6 +67,16 @@ module CruiseStatus
 
   def servers
     @servers ||= YAML.load(File.read(File.dirname(__FILE__) + '/config/servers.yaml'))
+  end
+
+  def additional_checks
+    return @additional_checks if @additional_checks
+    if File.exists?("config/additional_checks.yaml")
+      @additional_checks = AdditionalChecks.new(YAML.load(File.read("config/additional_checks.yaml")))
+      @additional_checks.start
+    else
+      @additional_checks = AdditionalChecks.new({})
+    end
   end
 
   def timeout_or_nil(value)

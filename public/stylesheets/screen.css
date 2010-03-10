@@ -35,6 +35,13 @@ div.building {
 div.ok {
   font-size:5em;
 }
+div.project pre {
+  font-size: .5em;
+  text-align:left;
+  color: #000;
+  background: #fff;
+  padding: .2em 1em;
+}
 div.time {
   position:absolute;
   bottom:1em;

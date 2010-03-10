@@ -3,11 +3,11 @@
 <% end %>
 
 <% if builds[:failure].any? || builds[:building].any? %>
-  <% builds[:failure].each do |title| %>
-    <div class="project failure"><%= title %></div>
+  <% builds[:failure].each do |checker| %>
+    <%= erb :checker, :locals => {:checker => checker, :status => :failure} %>
   <% end %>
-  <% builds[:building].each do |title| %>
-    <div class="project building"><%= title %></div>
+  <% builds[:building].each do |checker| %>
+    <%= erb :checker, :locals => {:checker => checker, :status => :building} %>
   <% end %>
   <% if builds[:success].any? %>
     <div class="project success"><%= builds[:success].length %> other heifers are just dandy</div>

@@ -1,1 +1,3 @@
 public/cache
+additional_checks/translations_check.rb
+config/additional_checks.yaml

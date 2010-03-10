@@ -1,0 +1,10 @@
+<div class="project <%= status %>">
+  <% if String === checker %>
+    <%= checker %>
+  <% else %>
+    <%= checker.name %>
+    <% if status == :failure %>
+      <pre><%= checker.last_run_data %></pre>
+    <% end %>
+  <% end %>
+</div>

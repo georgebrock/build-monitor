@@ -13,7 +13,9 @@ def status_html
 end
 
 get '/' do
-  erb :index, :locals => {:status => status_html, :pager_urls => YAML.load(File.read(File.dirname(__FILE__) + '/config/pager.yaml'))}
+  pager_urls = nil
+  pager_urls = YAML.load(File.read(File.dirname(__FILE__) + '/config/pager.yaml')) if File.exists?(File.dirname(__FILE__) + '/config/pager.yaml')
+  erb :index, :locals => { :status => status_html, :pager_urls => pager_urls }
 end
 
 get '/status' do

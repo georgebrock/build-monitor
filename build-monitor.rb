@@ -5,11 +5,16 @@ require 'rexml/document'
 require 'net/http'
 require 'yaml'
 require 'additional_checks'
+require 'json'
 
 set :public, File.dirname(__FILE__) + '/public'
 
 def status_html
-  status = erb :status, :locals => {:builds => CruiseStatus.builds}
+  response = Net::HTTP.get_response(URI.parse('http://admin.revieworld.com/data_integrity.json'))
+  if response.code_type == Net::HTTPOK
+    data = JSON.parse(response.body)
+  end
+  status = erb :status, :locals => {:builds => CruiseStatus.builds, :data_integrity => data}
 end
 
 get '/' do

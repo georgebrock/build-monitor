@@ -15,6 +15,24 @@
 <% elsif builds[:success].any? %>
   <div class="ok">All <%= builds[:success].length %> heifers happy as pigs in muck</div>
 <% end %>
+
+<% unless data_integrity.nil? || data_integrity['valid'] %>
+  <div class="data-integrity project failure">
+    Data Integrity Checker failed.
+    <ul>
+      <% data_integrity["errors"].each do |error|  %>
+        <li><%= error.gsub(/From:.*/, '') %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<% if data_integrity.nil? %>
+  <div class="data-integrity project failure">
+    Data Integrity Checker isn't working. Check admin.revieworld.com/data_integrity.json
+  </div>
+<% end %>
+
 <div class="time">Checked the herd at <%= DateTime.now.strftime("%T") %></div>
 
 <script type="text/javascript" charset="utf-8">

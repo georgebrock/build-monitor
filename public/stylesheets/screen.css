@@ -19,6 +19,13 @@ div.project, div.ok {
   -webkit-border-radius:0.5em;
   -moz-border-radius:0.5em;
 }
+div.project li {
+  font-size:12px;
+  list-style-type:none;
+}
+div.project ul {
+  margin:0;
+}
 div.success, div.ok {
   background-color:#0a0;
   color:#fff;

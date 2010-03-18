@@ -2,7 +2,7 @@ require 'rubygems'
 require 'sinatra'
 require 'erb'
 require 'rexml/document'
-require 'net/http'
+require 'net/https'
 require 'yaml'
 require 'additional_checks'
 require 'json'
@@ -10,7 +10,7 @@ require 'json'
 set :public, File.dirname(__FILE__) + '/public'
 
 def status_html
-  response = Net::HTTP.get_response(URI.parse('http://admin.revieworld.com/data_integrity.json'))
+  response = DataIntegrity.response
   if response.code_type == Net::HTTPOK
     data = JSON.parse(response.body)
   end
@@ -25,6 +25,20 @@ end
 
 get '/status' do
   status_html
+end
+
+module DataIntegrity
+
+  def response(url = 'https://admin.revieworld.com/data_integrity.json')
+    uri = URI.parse(url)
+    http = Net::HTTP.new(uri.host, uri.port)
+    http.use_ssl = true
+    http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+
+    request = Net::HTTP::Get.new(uri.request_uri)
+    http.request(request)
+  end
+  extend self
 end
 
 module CruiseStatus

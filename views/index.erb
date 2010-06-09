@@ -15,11 +15,13 @@
       moo_bad = soundManager.createSound({id: 'moo_bad', url: "/sounds/moo_bad.mp3",volume: 200 });
     }
 
-    var last_bad_count = 0;
-    function status_update(bad_count){
-      if(bad_count > last_bad_count){ moo_bad && moo_bad.play(); }
-      if(bad_count < last_bad_count){ moo_good && moo_good.play(); }
-      last_bad_count = bad_count;
+    var last_counts = {
+      bad:0, good:0, building:0
+    }
+    function status_update(counts){
+      if(counts.good > last_counts.good){ moo_bad && moo_bad.play(); }
+      if((counts.bad + counts.building) < last_counts.bad){ moo_good && moo_good.play(); }
+      last_counts = counts
     }
 
     function pager_advance() {

@@ -36,5 +36,5 @@
 <div class="time">Checked the herd at <%= DateTime.now.strftime("%T") %></div>
 
 <script type="text/javascript" charset="utf-8">
-  status_update(<%= builds[:failure].size %>);
+  status_update({<%= "bad:#{builds[:failure].size}, good:#{builds[:success].size}, building:#{builds[:building].size}" %>});
 </script>

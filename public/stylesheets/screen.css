@@ -5,7 +5,8 @@ html, body {
 body {
   padding:0 1em;
   font-family:arial, sans-serif;
-  background: url('/images/cow.gif') no-repeat 5% 500px;
+  background: url('/images/countdown.jpg') no-repeat 50% 50%;
+  overflow: hidden;
 }
 div.project, div.ok {
   text-align:center;
@@ -92,4 +93,8 @@ div.time {
   border-radius: 4em;
   -webkit-border-radius: 4em;
   -moz-border-radius: 4em;
+}
+
+#status{
+  height: 1024px;
 }

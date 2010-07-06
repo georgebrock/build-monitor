@@ -1,3 +1,5 @@
 ---
-- integration01:3333
-- integration02:3333
+- http://integration01:3333/XmlStatusReport.aspx
+- http://integration02:3333/XmlStatusReport.aspx
+- http://integration03:3333/XmlStatusReport.aspx
+- http://integration01/projects.xml

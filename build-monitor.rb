@@ -48,10 +48,10 @@ module CruiseStatus
 
     builds = {:success => [], :failure => [], :building => [], :update_failed => []}
 
-    servers.each do |server|
-      unless doc = timeout_or_nil(30){ get_xml(server) }
-        builds[:update_failed] << server
-        return builds unless doc = @last_cruise_status[server]
+    servers.each do |url|
+      unless doc = timeout_or_nil(30){ get_xml(url) }
+        builds[:update_failed] << url
+        return builds unless doc = @last_cruise_status[url]
       end
 
       doc.elements.each('Projects/Project') do |p|
@@ -59,7 +59,7 @@ module CruiseStatus
         builds[status.to_sym] << p.attributes["name"]
       end
 
-      @last_cruise_status[server] = doc
+      @last_cruise_status[url] = doc
     end
 
     additional_checks.each do |checker|
@@ -69,14 +69,14 @@ module CruiseStatus
     builds
   end
 
-  def get_xml(server)
-    uri = URI.parse("http://#{server}/XmlStatusReport.aspx")
+  def get_xml(url)
+    uri = URI.parse(url)
     http_result = Net::HTTP.start(uri.host, uri.port) {|http|
       http.get(uri.path)
     }
 
     if http_result
-      dir = File.dirname(__FILE__) + '/public/cache/'+uri.host
+      dir = File.dirname(__FILE__) + '/public/cache/'+url.downcase.gsub(%r{https?://}, "").gsub(/[^a-z0-9]+/, "-") 
       Dir.mkdir(dir) unless File.exists?(dir)
       f = File.open(dir+'/XmlStatusReport.aspx', 'w')
       f.write(http_result.body)

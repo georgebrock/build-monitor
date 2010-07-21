@@ -38,7 +38,7 @@ class AdditionalChecks
 
   def initialize(config)
     @checkers = {}
-    config.each do |id, settings|
+    (config||[]).each do |id, settings|
       @checkers[id.to_sym] = Checker.new(id, settings["name"] || id, settings["command"], (settings["interval"] || 60).to_i)
     end
   end

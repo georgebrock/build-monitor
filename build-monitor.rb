@@ -31,9 +31,9 @@ module CruiseStatus
     builds = {:success => [], :failure => [], :building => [], :update_failed => []}
 
     servers.each do |url|
-      unless doc = timeout_or_nil(30){ get_xml(url) }
+      unless doc = timeout_or_connrefused_or_nil(30){ get_xml(url) }
         builds[:update_failed] << url
-        return builds unless doc = @last_cruise_status[url]
+        next unless doc = @last_cruise_status[url]
       end
 
       doc.elements.each('Projects/Project') do |p|
@@ -82,11 +82,11 @@ module CruiseStatus
     end
   end
 
-  def timeout_or_nil(value)
+  def timeout_or_connrefused_or_nil(value)
     Timeout::timeout(10) do
       return yield
     end
-  rescue Timeout::Error
+  rescue Timeout::Error, Errno::ECONNREFUSED
     return nil
   end
 

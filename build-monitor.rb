@@ -10,11 +10,7 @@ require 'json'
 set :public, File.dirname(__FILE__) + '/public'
 
 def status_html
-  response = DataIntegrity.response
-  if response.code_type == Net::HTTPOK
-    data = JSON.parse(response.body)
-  end
-  status = erb :status, :locals => {:builds => CruiseStatus.builds, :data_integrity => data}
+  status = erb :status, :locals => {:builds => CruiseStatus.builds}
 end
 
 get '/' do
@@ -25,20 +21,6 @@ end
 
 get '/status' do
   status_html
-end
-
-module DataIntegrity
-
-  def response(url = 'https://admin.revieworld.com/data_integrity.json')
-    uri = URI.parse(url)
-    http = Net::HTTP.new(uri.host, uri.port)
-    http.use_ssl = true
-    http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-
-    request = Net::HTTP::Get.new(uri.request_uri)
-    http.request(request)
-  end
-  extend self
 end
 
 module CruiseStatus

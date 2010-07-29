@@ -28,7 +28,7 @@ module CruiseStatus
   def builds
     @last_cruise_status ||= {}
 
-    builds = {:success => [], :failure => [], :building => [], :update_failed => []}
+    builds = {:success => [], :failure => [], :building => [], :update_failed => [], :counts => {:success => 0, :failure => 0}}
 
     servers.each do |url|
       unless doc = timeout_or_connrefused_or_nil(30){ get_xml(url) }
@@ -38,6 +38,7 @@ module CruiseStatus
 
       doc.elements.each('Projects/Project') do |p|
         status = p.attributes["activity"] == "Building" ? "building" : p.attributes["lastBuildStatus"].downcase
+        builds[:counts][p.attributes["lastBuildStatus"].downcase.to_sym] += 1;
         builds[status.to_sym] << p.attributes["name"]
       end
 

@@ -16,12 +16,12 @@
     }
 
     var last_counts = {
-      bad:0, good:0, building:0
+      bad:0, good:0
     }
     function status_update(counts){
-      if(counts.good > last_counts.good){ moo_bad && moo_bad.play(); }
-      if((counts.bad + counts.building) < last_counts.bad){ moo_good && moo_good.play(); }
-      last_counts = counts
+      if(counts.bad > last_counts.bad){ moo_bad && moo_bad.play(); }
+      if(counts.good > last_counts.good){ moo_good && moo_good.play(); }
+      last_counts = counts;
     }
 
     function pager_advance() {
